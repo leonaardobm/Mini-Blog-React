@@ -25,6 +25,7 @@ export const useAuthentication = () => {
     }
   }
 
+  //resgister
   const createUser = async (data) => {
     checkIfIsCancelled();
 
@@ -50,8 +51,7 @@ export const useAuthentication = () => {
       let systemErrorMessage;
 
       if (error.message.includes("Password")) {
-        systemErrorMessage =
-          "A senha precisa ter pelo menos 6 dígitos.";
+        systemErrorMessage = "A senha precisa ter pelo menos 6 dígitos.";
       } else if (error.message.includes("email-already")) {
         systemErrorMessage = "Esse email já está em uso";
       } else {
@@ -63,6 +63,12 @@ export const useAuthentication = () => {
     }
   };
 
+  //logout
+  const logout = () => {
+    checkIfIsCancelled();
+    signOut(auth);
+  };
+
   useEffect(() => {
     return () => setCancelled(true);
   }, []);
@@ -72,5 +78,6 @@ export const useAuthentication = () => {
     createUser,
     error,
     loading,
+    logout,
   };
 };
