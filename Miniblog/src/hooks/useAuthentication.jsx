@@ -1,4 +1,4 @@
-import {db} from "../firebase/config"
+import { db } from "../firebase/config";
 
 import {
   getAuth,
@@ -29,7 +29,7 @@ export const useAuthentication = () => {
     checkIfIsCancelled();
 
     setLoading(true);
-    setError(null)
+    setError(null);
 
     try {
       const { user } = await createUserWithEmailAndPassword(
@@ -40,40 +40,37 @@ export const useAuthentication = () => {
 
       await updateProfile(user, { displayName: data.displayName });
 
-      setLoading(false)
+      setLoading(false);
 
-      return user
-
+      return user;
     } catch (error) {
-        console.log(error.message)
-        console.log(typeof error.message)
+      console.log(error.message);
+      console.log(typeof error.message);
 
+      let systemErrorMessage;
 
-        let systemErrorMessage
+      if (error.message.includes("Password")) {
+        systemErrorMessage =
+          "A senha precisa ter pelo menos 6 dígitos.";
+      } else if (error.message.includes("email-already")) {
+        systemErrorMessage = "Esse email já está em uso";
+      } else {
+        systemErrorMessage = "Ocorreu um erro, tente novamente mais tarde";
+      }
 
-        if(error.message.includes("Password")){
-            systemErrorMessage= 'The password must be at least 6 characters long and contain a number.'
-        } else if(error.message.includes("email-already")){
-            systemErrorMessage='This email is already in use'
-        } else {
-            systemErrorMessage = "Ocorreu um erro, tente novamente mais tarde"
-        }
-
-        setLoading(false)
-        setError(systemErrorMessage)
+      setLoading(false);
+      setError(systemErrorMessage);
     }
-
-    
   };
 
-  useEffect(() =>{
-    return () => setCancelled(true)
-  }, [])
+  useEffect(() => {
+    return () => setCancelled(true);
+  }, []);
 
-  return{
+  return {
     auth,
     createUser,
     error,
     loading,
-  }
+  };
 };

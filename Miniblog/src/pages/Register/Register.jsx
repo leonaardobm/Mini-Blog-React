@@ -83,7 +83,7 @@ const Register = () => {
             type="password"
             name="confirmPassword"
             required
-            placeholder="Confirme a sua"
+            placeholder="Confirme a sua senha"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
