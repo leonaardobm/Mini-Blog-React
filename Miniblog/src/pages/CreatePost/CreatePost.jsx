@@ -51,7 +51,7 @@ const CreatePost = () => {
             type="text"
             name="title"
             required
-            placeholder="Pense num bom título..."
+            placeholder="Pense num bom título para o seu post"
             onChange={(e) => setTitle(e.target.value)}
             value={title}
           />
@@ -62,7 +62,7 @@ const CreatePost = () => {
             type="text"
             name="image"
             required
-            placeholder="Insira aqui a imagem que representa o seu post..."
+            placeholder="Insira aqui a imagem que melhor representa o seu post"
             onChange={(e) => setImage(e.target.value)}
             value={image}
           />
@@ -83,7 +83,7 @@ const CreatePost = () => {
             type="text"
             name="tags"
             required
-            placeholder="Insira as tags separadas por vírgula..."
+            placeholder="Insira as tags separadas por vírgula"
             onChange={(e) => setTag(e.target.value)}
             value={tag}
           />
