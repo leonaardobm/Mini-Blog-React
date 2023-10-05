@@ -16,28 +16,42 @@ const CreatePost = () => {
 
   const { user } = useAuthValue();
 
-  const {insertDocument, response} = useInsertDocument("posts");
+  const { insertDocument, response } = useInsertDocument("posts");
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormError("");
 
     //validar imagem URL
+    try {
+      new URL(image);
+    } catch (error) {
+      setFormError("A imagem precisa ser uma URL");
+    }
 
     //criar array de tags
+    const tagsArray = tag.split(",").map((tag) => tag.trim().toLowerCase());
 
     //checar os valores
+    if (!title || !image || !tag || body) {
+      setFormError("Por favor, preencha todos os campos!");
+    }
+
+    if (formError) return;
 
     insertDocument({
       title,
       image,
       body,
-      tag,
+      tagsArray,
       uid: user.uid,
       createdBy: user.displayName,
     });
 
     //redirecionar para homepage
+    navigate("/");
   };
 
   return (
@@ -88,7 +102,7 @@ const CreatePost = () => {
             value={tag}
           />
         </label>
-        
+
         {!response.loading && <button className="btn">Cadastrar</button>}
         {response.loading && (
           <button className="btn" disabled>
@@ -96,6 +110,7 @@ const CreatePost = () => {
           </button>
         )}
         {response.error && <p className="error">{response.error}</p>}
+        {formError && <p className="error">{formError}</p>}
       </form>
     </div>
   );
